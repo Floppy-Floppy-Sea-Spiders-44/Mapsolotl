@@ -8,12 +8,12 @@ router.get('/secret', userController.getAllUser, (req, res) =>
   res.status(200).send(res.locals.users)
 );
 router.post('/signup', userController.createUser, (req, res) =>
-  res.status(201).send('User Create successfully')
+  res.status(201).redirect('/login')
 );
 
-router.post('/login', userController.verifyUser, (req, res) =>
-  res.status(200).redirect('/')
-);
+router.post('/login', userController.verifyUser, (req, res) => {
+  return res.status(200).redirect('/');
+});
 
 router.patch('/updatepw/:name', userController.updateUser, (req, res) =>
   res.status(201).send('Password updated')

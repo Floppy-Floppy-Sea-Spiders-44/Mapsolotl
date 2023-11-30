@@ -1,4 +1,5 @@
 const User = require('../userModel');
+const Disc_User = require('../discordUserModel');
 const bcrypt = require('bcrypt');
 
 //have to import so that the request method in getToken works
@@ -12,6 +13,10 @@ const userController = {};
 //createUser - create and save a new User into the database.
 userController.createUser = async (req, res, next) => {
   try {
+    // const newUser = await User.create({
+    //   userName,
+    //   password,
+    // });
     const { userName, password } = req.body;
     const salt = await bcrypt.genSalt();
     const hashedPW = await bcrypt.hash(password, salt);
@@ -23,7 +28,7 @@ userController.createUser = async (req, res, next) => {
     });
     const saveUser = await response.save();
     res.locals.userId = saveUser;
-    console.log('newuser: ', saveUser);
+    // console.log('newuser: ', userName);
     return next();
   } catch (err) {
     return next({
@@ -75,6 +80,7 @@ userController.createDiscordUser = async (req, res, next) => {
 //  */
 userController.verifyUser = async (req, res, next) => {
   try {
+    console.log(req.body);
     const { userName, password } = req.body;
     console.log('req.body:', req.body);
     const user = await User.findOne({ userName });
